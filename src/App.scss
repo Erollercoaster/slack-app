@@ -1,0 +1,10 @@
+@use "components/Partials/reset";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+@import "components/Partials/registerform";

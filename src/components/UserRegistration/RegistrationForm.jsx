@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/API";
 
 function RegistrationForm() {
+  const navigate = useNavigate();
   const [registrationData, setRegistrationData] = useState({
     email: "",
     password: "",
@@ -20,7 +22,7 @@ function RegistrationForm() {
     e.preventDefault();
 
     try {
-      await axiosInstance.post("/", registrationData);
+      await axiosInstance.post("/auth", registrationData);
 
       console.log("Registration successful", registrationData);
 
@@ -29,7 +31,8 @@ function RegistrationForm() {
         password: "",
         password_confirmation: "",
       });
-      // Redirect to login page
+
+      navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 422) {
         const validationErrors = error.response.data.errors;

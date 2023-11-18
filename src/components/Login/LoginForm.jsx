@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "../../utils/API";
+import { Link } from "react-router-dom";
 
 function LoginForm() {
   const [loginData, setLoginData] = useState({
@@ -19,17 +20,26 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axiosInstance.post("/sign_in", loginData);
+      const response = await axiosInstance.post("/auth/sign_in", loginData);
+
+      const authHeaders = {
+        "access-token": response.headers["access-token"],
+        client: response.headers["client"],
+        expiry: response.headers["expiry"],
+        uid: response.headers["uid"],
+      };
+      localStorage.setItem("authHeaders", JSON.stringify(authHeaders));
 
       console.log("Login successful", response.data);
       localStorage.setItem("userDetails", JSON.stringify(response.data));
-      // add logic for successful login
+
+      // add logic for successful login (redirect to dashboard)
     } catch (error) {
       console.error(
         "Login failed:",
         error.response ? error.response.data : error
       );
-      // handle errors
+      // handle login errors
     }
   };
 
@@ -58,6 +68,10 @@ function LoginForm() {
         </label>
         <br />
         <button type="submit">Login</button>
+        <br />
+        <span>
+          Need an Account? <Link to="/register">Register</Link>
+        </span>
       </form>
     </div>
   );

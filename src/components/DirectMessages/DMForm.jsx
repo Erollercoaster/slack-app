@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axiosInstance from "../../utils/API";
 
-const DMForm = () => {
+const DMForm = ({ onAddMessage }) => {
   const [message, setMessage] = useState({
     receiverId: "",
-    receiverClass: "User", // Defaulting to 'User', change as needed
+    receiverClass: "User",
     body: "",
   });
 
@@ -15,19 +15,31 @@ const DMForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Add your auth headers here
-      const authHeaders = {
-        "access-token": "your-access-token",
-        client: "your-client",
-        expiry: "your-expiry",
-        uid: "your-uid",
+      const storedHeaders = localStorage.getItem("authHeaders");
+      const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
+
+      const requestBody = {
+        receiver_id: parseInt(message.receiverId),
+        receiver_class: message.receiverClass,
+        body: message.body,
       };
 
-      const response = await axiosInstance.post("/messages", message, {
+      const response = await axiosInstance.post("/messages", requestBody, {
         headers: authHeaders,
       });
+
       console.log("Message sent:", response.data);
-      // Clear the form or handle the response as needed
+
+      if (onAddMessage) {
+        onAddMessage(message.receiverId, {
+          body: message.body,
+        });
+      }
+
+      setMessage({
+        ...message,
+        body: "",
+      });
     } catch (error) {
       console.error("Error sending message:", error);
     }

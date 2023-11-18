@@ -1,5 +1,8 @@
 @use "components/Partials/reset";
 
+@import "components/Partials/sidebar";
+@import "components/Partials/chatlist";
+
 body {
   display: flex;
   justify-content: center;

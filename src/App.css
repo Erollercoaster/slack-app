@@ -128,6 +128,28 @@ table {
   border-spacing: 0;
 }
 
+.sidebar-wrapper {
+  background-color: black;
+  height: 100%;
+  width: 60px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.63rem;
+}
+
+.chatlist-wrapper {
+  background-color: teal;
+  height: 100%;
+  width: 250px;
+  position: absolute;
+  left: 3.7rem;
+  top: 0;
+  padding-left: 2.5rem;
+  padding-top: 2.5rem;
+  padding-right: 2.5rem;
+}
+
 body {
   display: flex;
   justify-content: center;

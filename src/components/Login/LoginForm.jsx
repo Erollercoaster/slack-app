@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/API";
 
 function LoginForm() {
   const [loginData, setLoginData] = useState({
@@ -19,27 +19,17 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios({
-        method: "post",
-        url: "http://206.189.91.54/api/v1/auth/sign_in", // Adjust the URL as needed
-        data: loginData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post("/sign_in", loginData);
 
       console.log("Login successful", response.data);
-
-      // Storing user details in local storage
       localStorage.setItem("userDetails", JSON.stringify(response.data));
-
-      // Additional logic for successful login, e.g., redirect
+      // add logic for successful login
     } catch (error) {
       console.error(
         "Login failed:",
         error.response ? error.response.data : error
       );
-      // Handle errors, e.g., show error message to the user
+      // handle errors
     }
   };
 

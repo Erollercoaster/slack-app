@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../utils/API";
 
 function RegistrationForm() {
   const [registrationData, setRegistrationData] = useState({
@@ -20,29 +20,26 @@ function RegistrationForm() {
     e.preventDefault();
 
     try {
-      await axios({
-        method: "post",
-        url: "http://206.189.91.54/api/v1/auth/",
-        data: registrationData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axiosInstance.post("/", registrationData);
 
       console.log("Registration successful", registrationData);
-      // You can handle success, e.g., redirect to login page
+
+      setRegistrationData({
+        email: "",
+        password: "",
+        password_confirmation: "",
+      });
+      // Redirect to login page
     } catch (error) {
-      if (error.response.status === 422) {
+      if (error.response && error.response.status === 422) {
         const validationErrors = error.response.data.errors;
         console.error("Validation errors:", validationErrors);
 
-        // Display validation errors to the user
         alert(
           `Validation errors:\n${validationErrors.full_messages.join("\n")}`
         );
       } else {
         console.error("Registration failed:", error.response.data);
-        // Handle other types of errors
       }
     }
   };

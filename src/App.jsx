@@ -1,12 +1,18 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import React from "react";
 import { LoginForm } from "./components/Login/LoginForm.jsx";
 import { RegistrationForm } from "./components/UserRegistration/RegistrationForm.jsx";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  return <RegistrationForm></RegistrationForm>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

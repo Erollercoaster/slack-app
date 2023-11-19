@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/API";
 import Select from "react-select";
 
-const ChatList = () => {
+const ChatList = ({ onUserSelect }) => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,12 @@ const ChatList = () => {
   }, []);
 
   const handleChange = (selectedOption) => {
+    console.log("Selected user:", selectedOption);
     setSelectedUser(selectedOption);
+    if (onUserSelect && selectedOption) {
+      const email = selectedOption.label.split(" (")[1].slice(0, -1);
+      onUserSelect(selectedOption.value, email);
+    }
   };
 
   if (isLoading) return <div>Loading...</div>;

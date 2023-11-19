@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/API";
 
-const DMForm = ({ onAddMessage }) => {
+const DMForm = ({ onAddMessage, receiverId, receiverEmail }) => {
   const [message, setMessage] = useState({
-    receiverId: "",
+    receiverId: receiverId || "",
     receiverClass: "User",
     body: "",
   });
+
+  useEffect(() => {
+    setMessage((prevMessage) => ({
+      ...prevMessage,
+      receiverId: receiverId || "",
+    }));
+  }, [receiverId]);
 
   const handleInputChange = (e) => {
     setMessage({ ...message, [e.target.name]: e.target.value });
@@ -56,14 +63,15 @@ const DMForm = ({ onAddMessage }) => {
             name="receiverId"
             value={message.receiverId}
             onChange={handleInputChange}
+            disabled={!!receiverId}
           />
         </div>
-        <div>
+        <div className="send-message-container">
           <textarea
             name="body"
             value={message.body}
             onChange={handleInputChange}
-            placeholder="Message"
+            placeholder={`Message ${receiverEmail ? `(${receiverEmail})` : ""}`}
           />
         </div>
         <button type="submit">Send Message</button>

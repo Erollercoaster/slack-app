@@ -1,5 +1,5 @@
 .chatlist-wrapper {
-  background-color: teal;
+  background-color: #37474f;
   height: 100%;
   width: 250px;
   position: absolute;
@@ -8,4 +8,8 @@
   padding-left: 2.5rem;
   padding-top: 2.5rem;
   padding-right: 2.5rem;
+  color: white;
+
+  //   Active Chat Highlight: #ECF0F1 (Soft White)
+  // Hover State: #BDC3C7 (Silver)
 }

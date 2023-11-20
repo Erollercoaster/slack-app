@@ -8,7 +8,6 @@ const DMPage = () => {
   const [messages, setMessages] = useState({});
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedUserEmail, setSelectedUserEmail] = useState("");
-  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     if (selectedUserId) {
@@ -64,8 +63,8 @@ const DMPage = () => {
   // replace 'user1' with dynamic user ID
   return (
     <div className="DM-wrapper">
-      <h1>Direct Messages</h1>
       <div className="chatlist-wrapper">
+        <h1>Direct Messages</h1>
         <ChatList onUserSelect={handleUserSelection} />
       </div>
       <div className="sidebar-wrapper">

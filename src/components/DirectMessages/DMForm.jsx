@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/API";
+import { Send } from "lucide-react";
 
 const DMForm = ({ onAddMessage, receiverId, receiverEmail }) => {
   const [message, setMessage] = useState({
@@ -54,10 +55,9 @@ const DMForm = ({ onAddMessage, receiverId, receiverEmail }) => {
 
   return (
     <div>
-      <h2>Send Direct Message</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Receiver ID:</label>
+          <label>ID:</label>
           <input
             type="text"
             name="receiverId"
@@ -67,14 +67,18 @@ const DMForm = ({ onAddMessage, receiverId, receiverEmail }) => {
           />
         </div>
         <div className="send-message-container">
-          <textarea
+          <input
+            type="text"
             name="body"
             value={message.body}
             onChange={handleInputChange}
-            placeholder={`Message ${receiverEmail ? `(${receiverEmail})` : ""}`}
+            placeholder={`Message ${receiverEmail ? `${receiverEmail}` : ""}`}
+            className="send-message-input"
           />
+          <button type="submit" className="send-message-button">
+            <Send />
+          </button>
         </div>
-        <button type="submit">Send Message</button>
       </form>
     </div>
   );

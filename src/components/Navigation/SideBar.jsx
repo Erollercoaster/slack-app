@@ -1,7 +1,21 @@
 import React from "react";
+import { LogOut } from "lucide-react";
 
-function SideBar() {
-  return <div className="sidebar-wrapper"></div>;
-}
+const NavBar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("authHeaders");
+    window.location.href = "/";
+  };
 
-export default SideBar;
+  return (
+    <nav>
+      <div className="sidebar-wrapper">
+        <button onClick={handleLogout} className="logout-button">
+          <LogOut /> Logout
+        </button>
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;

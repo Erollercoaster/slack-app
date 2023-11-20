@@ -7,3 +7,25 @@
   top: 0;
   padding: 0.63rem;
 }
+
+.logout-button {
+  color: white;
+  background-color: #263238;
+  border: none;
+  position: absolute;
+  bottom: 3.5rem;
+  margin-right: 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.logout-button:hover {
+  background-color: #37474f;
+}
+
+.logout-button:active {
+  background-color: #1b2327;
+}

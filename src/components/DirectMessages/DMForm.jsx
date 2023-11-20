@@ -56,16 +56,6 @@ const DMForm = ({ onAddMessage, receiverId, receiverEmail }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>ID:</label>
-          <input
-            type="text"
-            name="receiverId"
-            value={message.receiverId}
-            onChange={handleInputChange}
-            disabled={!!receiverId}
-          />
-        </div>
         <div className="send-message-container">
           <input
             type="text"

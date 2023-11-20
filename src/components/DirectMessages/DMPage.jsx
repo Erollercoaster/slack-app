@@ -48,7 +48,11 @@ const DMPage = () => {
 
   const renderMessagesForUser = (userId) => {
     return messages[userId]?.map((msg, index) => (
-      <div key={index}>{msg.body}</div>
+      <div key={index}>
+        <div>From: {msg.sender.email}</div>
+        <div>At: {new Date(msg.created_at).toLocaleString()}</div>
+        <div>{msg.body}</div>
+      </div>
     ));
   };
 

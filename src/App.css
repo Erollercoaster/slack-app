@@ -211,18 +211,19 @@ input.send-message-input {
   flex-grow: 1;
   height: 40px;
   border-radius: 9px;
-  border: 1px solid #ccc;
+  border: 1px solid #b4b4b4;
   padding-left: 10px;
   box-sizing: border-box;
+  background-color: #eceff1;
   font-style: normal;
 }
 input.send-message-input::-moz-placeholder {
   font-style: italic;
-  color: #ccc;
+  color: #b4b4b4;
 }
 input.send-message-input::placeholder {
   font-style: italic;
-  color: #ccc;
+  color: #b4b4b4;
 }
 
 .send-message-button {
@@ -237,4 +238,31 @@ input.send-message-input::placeholder {
 
 .css-b62m3t-container {
   color: black;
+}
+
+.recent-conversation-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.delete-button {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  color: white;
+  border: none;
+  background-color: transparent;
+}
+
+.recent-conversation-item:hover {
+  background-color: #42555f;
+}
+.recent-conversation-item:hover .delete-button {
+  opacity: 1;
+  background-color: #42555f;
 }/*# sourceMappingURL=App.css.map */

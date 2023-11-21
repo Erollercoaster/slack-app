@@ -3,6 +3,7 @@ import DMForm from "./DMForm";
 import ChatList from "./chatlist";
 import SideBar from "../Navigation/SideBar";
 import axiosInstance from "../../utils/API";
+import RecentConversations from "./RecentConversations";
 
 const DMPage = () => {
   const [messages, setMessages] = useState({});
@@ -49,27 +50,41 @@ const DMPage = () => {
   const renderMessagesForUser = (userId) => {
     return messages[userId]?.map((msg, index) => (
       <div key={index}>
-        <div>From: {msg.sender.email}</div>
+        <div>From: {msg.sender?.email}</div>
         <div>At: {new Date(msg.created_at).toLocaleString()}</div>
         <div>{msg.body}</div>
       </div>
     ));
   };
 
-  // Function to handle user selection from ChatList (not shown here)
   const handleUserSelection = async (userId, userEmail) => {
     console.log("Selected user ID:", userId);
     setSelectedUserId(userId);
     setSelectedUserEmail(userEmail);
     await fetchMessagesForUser(userId);
+
+    const recentConversations =
+      JSON.parse(localStorage.getItem("recentConversations")) || [];
+
+    const isExistingConversation = recentConversations.some(
+      (conversation) => conversation.id === userId
+    );
+
+    if (!isExistingConversation) {
+      const newConversation = { id: userId, email: userEmail };
+      localStorage.setItem(
+        "recentConversations",
+        JSON.stringify([newConversation, ...recentConversations])
+      );
+    }
   };
 
-  // replace 'user1' with dynamic user ID
   return (
     <div className="DM-wrapper">
       <div className="chatlist-wrapper">
         <h1>Direct Messages</h1>
         <ChatList onUserSelect={handleUserSelection} />
+        <RecentConversations onSelectUser={handleUserSelection} />
       </div>
       <div className="sidebar-wrapper">
         <SideBar />

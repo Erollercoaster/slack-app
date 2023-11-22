@@ -5,9 +5,17 @@ const RecentConversations = ({ onSelectUser }) => {
   const [recentConversations, setRecentConversations] = useState([]);
 
   useEffect(() => {
-    const storedConversations =
-      JSON.parse(localStorage.getItem("recentConversations")) || [];
-    setRecentConversations(storedConversations);
+    const updateConversations = () => {
+      const storedConversations =
+        JSON.parse(localStorage.getItem("recentConversations")) || [];
+      setRecentConversations(storedConversations);
+    };
+
+    updateConversations(); // Initial update on component mount
+
+    const interval = setInterval(updateConversations, 5000); // Update every 5 seconds
+
+    return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
 
   const handleDeleteConversation = (id, event) => {

@@ -11,7 +11,6 @@ const ChatList = ({ onUserSelect }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Retrieve auth headers from storage
         const storedHeaders = localStorage.getItem("authHeaders");
         const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
 
@@ -19,10 +18,8 @@ const ChatList = ({ onUserSelect }) => {
           headers: authHeaders,
         });
 
-        // Use response.data.data to access the actual user data
         setUsers(
           response.data.data.map((user) => {
-            // Extract the part of the email before the '@'
             const emailName = user.email.split("@")[0];
             return {
               value: user.id,
@@ -63,7 +60,6 @@ const ChatList = ({ onUserSelect }) => {
         isClearable
         isSearchable
       />
-      {selectedUser && <div>You have selected: {selectedUser.label}</div>}
     </div>
   );
 };

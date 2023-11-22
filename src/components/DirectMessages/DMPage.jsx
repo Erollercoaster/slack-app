@@ -13,11 +13,15 @@ const DMPage = () => {
   useEffect(() => {
     if (selectedUserId) {
       fetchMessagesForUser(selectedUserId);
+      const interval = setInterval(() => {
+        fetchMessagesForUser(selectedUserId);
+      }, 5000); // Fetch new messages every 5 seconds
+
+      return () => clearInterval(interval); // Clear interval on component unmount
     }
   }, [selectedUserId]);
 
   const fetchMessagesForUser = async (userId) => {
-    console.log("Selected user ID:", userId);
     try {
       const storedHeaders = localStorage.getItem("authHeaders");
       const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
@@ -30,7 +34,6 @@ const DMPage = () => {
       );
 
       console.log("API response:", response.data);
-      // Assuming the response has a data field containing the messages
       setMessages((prevMessages) => ({
         ...prevMessages,
         [userId]: response.data.data,
@@ -58,7 +61,6 @@ const DMPage = () => {
   };
 
   const handleUserSelection = async (userId, userEmail) => {
-    console.log("Selected user ID:", userId);
     setSelectedUserId(userId);
     setSelectedUserEmail(userEmail);
     await fetchMessagesForUser(userId);

@@ -1,44 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ChannelForm from "./ChannelForm";
+import ChatList from "../DirectMessages/ChatList";
+import SideBar from "../Navigation/SideBar";
+import axiosInstance from "../../utils/API";
 
-const ChannelCreationForm = () => {
-  const [channelName, setChannelName] = useState("");
-  const [userEmailsInput, setUserEmailsInput] = useState("");
+const ChannelPage = () => {
+  const [messages, setMessages] = useState({});
+  const [selectedChannelId, setSelectedChannelId] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Split the userEmailsInput string into an array
-    const userEmails = userEmailsInput.split(",").map((email) => email.trim());
+  useEffect(() => {
+    if (selectedChannelId) {
+      fetchMessagesForChannel(selectedChannelId);
+      const interval = setInterval(() => {
+        fetchMessagesForChannel(selectedChannelId);
+      }, 5000); // Fetch new messages every 5 seconds
 
+      return () => clearInterval(interval); // Clear interval on component unmount
+    }
+  }, [selectedChannelId]);
+
+  const fetchMessagesForChannel = async (channelId) => {
     try {
-      // Convert email addresses to user IDs (assuming you have this API function)
-      const userIds = await getUserIdsByEmails(userEmails);
+      const storedHeaders = localStorage.getItem("authHeaders");
+      const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
 
-      const response = await createChannel({
-        name: channelName,
-        user_ids: userIds,
-      });
-      console.log("Channel created:", response.data);
-      // Handle success (e.g., clear form, show message)
-      // Reset form fields
-      setChannelName("");
-      setUserEmailsInput("");
+      const response = await axiosInstance.get(
+        `/messages?receiver_id=${channelId}&receiver_class=Channel`,
+        { headers: authHeaders }
+      );
+
+      setMessages((prevMessages) => ({
+        ...prevMessages,
+        [channelId]: response.data.messages || [],
+      }));
     } catch (error) {
-      console.error("Error creating channel:", error);
-      // Handle error
+      console.error("Error fetching messages:", error);
     }
   };
 
+  const addMessage = (channelId, newMessage) => {
+    setMessages((prevMessages) => ({
+      ...prevMessages,
+      [channelId]: [...(prevMessages[channelId] || []), newMessage],
+    }));
+  };
+
+  const renderMessagesForChannel = (channelId) => {
+    return messages[channelId]?.map((msg, index) => (
+      <div key={index}>
+        <div>From: {msg.sender?.email}</div>
+        <div>At: {new Date(msg.created_at).toLocaleString()}</div>
+        <div>{msg.body}</div>
+      </div>
+    ));
+  };
+
+  const handleChannelSelection = (channelId) => {
+    setSelectedChannelId(channelId);
+    fetchMessagesForChannel(channelId);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={channelName}
-        onChange={(e) => setChannelName(e.target.value)}
-        placeholder="Channel Name"
-      />
-      <button type="submit">Create Channel</button>
-    </form>
+    <div className="channel-wrapper">
+      <div className="chatlist-wrapper">
+        <h1>Channels</h1>
+        <ChatList onChannelSelect={handleChannelSelection} />
+      </div>
+      <div className="sidebar-wrapper">
+        <SideBar
+          onChannelSelect={handleChannelSelection}
+          selectedChannelId={selectedChannelId}
+        />
+      </div>
+      <div className="message-wrapper">
+        <h2>Channel Messages</h2>
+        {selectedChannelId && renderMessagesForChannel(selectedChannelId)}
+      </div>
+      <ChannelForm onAddMessage={addMessage} channelId={selectedChannelId} />
+    </div>
   );
 };
 
-export default ChannelCreationForm;
+export default ChannelPage;

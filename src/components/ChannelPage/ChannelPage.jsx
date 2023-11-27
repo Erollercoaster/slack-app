@@ -36,12 +36,6 @@ const ChannelCreationForm = () => {
         onChange={(e) => setChannelName(e.target.value)}
         placeholder="Channel Name"
       />
-      <input
-        type="text"
-        value={userIdsInput}
-        onChange={(e) => setUserIdsInput(e.target.value)}
-        placeholder="User IDs (comma-separated)"
-      />
       <button type="submit">Create Channel</button>
     </form>
   );

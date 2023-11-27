@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DMForm from "./DMForm";
-import ChatList from "./chatlist";
+import ChatList from "./ChatList";
 import SideBar from "../Navigation/SideBar";
 import axiosInstance from "../../utils/API";
 import RecentConversations from "./RecentConversations";

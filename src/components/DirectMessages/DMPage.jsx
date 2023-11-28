@@ -15,9 +15,9 @@ const DMPage = () => {
       fetchMessagesForUser(selectedUserId);
       const interval = setInterval(() => {
         fetchMessagesForUser(selectedUserId);
-      }, 5000); // Fetch new messages every 5 seconds
+      }, 5000);
 
-      return () => clearInterval(interval); // Clear interval on component unmount
+      return () => clearInterval(interval);
     }
   }, [selectedUserId]);
 
@@ -53,7 +53,7 @@ const DMPage = () => {
   const renderMessagesForUser = (userId) => {
     return messages[userId]?.map((msg, index) => (
       <div key={index}>
-        <div>From: {msg.sender?.email}</div>
+        <div>{msg.sender?.email}</div>
         <div>At: {new Date(msg.created_at).toLocaleString()}</div>
         <div>{msg.body}</div>
       </div>

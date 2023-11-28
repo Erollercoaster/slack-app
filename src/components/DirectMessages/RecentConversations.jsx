@@ -11,11 +11,11 @@ const RecentConversations = ({ onSelectUser }) => {
       setRecentConversations(storedConversations);
     };
 
-    updateConversations(); // Initial update on component mount
+    updateConversations();
 
-    const interval = setInterval(updateConversations, 5000); // Update every 5 seconds
+    const interval = setInterval(updateConversations, 5000);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleDeleteConversation = (id, event) => {

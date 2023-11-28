@@ -15,14 +15,14 @@ input.send-message-input {
   flex-grow: 1;
   height: 40px;
   border-radius: 9px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid #8a8a8a;
   padding-left: 10px;
   box-sizing: border-box;
   background-color: #eceff1;
 
   &::placeholder {
     font-style: italic;
-    color: #b4b4b4;
+    color: #8a8a8a;
   }
 
   font-style: normal;

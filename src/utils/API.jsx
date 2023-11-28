@@ -24,8 +24,7 @@ axiosInstance.interceptors.request.use(
 );
 
 export const createChannel = async (channelData) => {
-  const headers = JSON.parse(localStorage.getItem("authHeaders"));
-  return axiosInstance.post("/channels", channelData, { headers });
+  return axiosInstance.post("/channels", channelData);
 };
 
 export const getUserChannels = async () => {

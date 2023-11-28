@@ -139,26 +139,107 @@ table {
   padding: 0.63rem;
 }
 
+.common-glow-effect, button.create-channel-button, .logout-button, .channel-item {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  color: white;
+  background-color: #37474f;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.common-glow-effect::before, button.create-channel-button::before, .logout-button::before, .channel-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #0cce6b;
+  transition: 0.5s;
+  transform: scale(0.9);
+  z-index: -1;
+}
+.common-glow-effect:hover::before, button.create-channel-button:hover::before, .logout-button:hover::before, .channel-item:hover::before {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #0cce6b;
+}
+.common-glow-effect:hover, button.create-channel-button:hover, .logout-button:hover, .channel-item:hover {
+  color: #0cce6b;
+  box-shadow: 0 0 5px #0cce6b;
+  text-shadow: 0 0 5px #0cce6b;
+}
+
+.channel-item {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.channel-item.selected {
+  color: #0cce6b;
+  box-shadow: 0 0 5px #0cce6b;
+  text-shadow: 0 0 5px #0cce6b;
+}
+
+.logout-button,
+button.create-channel-button {
+  position: absolute;
+  bottom: 3.5rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+button.create-channel-button {
+  bottom: 7.5rem;
+  font-size: 0.8rem;
+}
+
 .logout-button {
   color: white;
-  background-color: #263238;
+  background-color: #37474f;
   border: none;
   position: absolute;
   bottom: 3.5rem;
   margin-right: 0.7rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
+  font-size: 0.75rem;
 }
 
-.logout-button:hover {
+button.create-channel-button {
+  position: absolute;
+  bottom: 7.5rem;
+  margin-right: -1rem;
+  color: white;
   background-color: #37474f;
+  border: none;
+  position: absolute;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  font-size: 0.8rem;
 }
 
-.logout-button:active {
-  background-color: #1b2327;
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.context-menu-item {
+  padding: 5px;
+  text-align: center;
+  width: 100%;
 }
 
 .chatlist-wrapper {
@@ -184,7 +265,7 @@ body {
   align-items: center;
   height: 90vh;
   font-family: "Montserrat", sans-serif;
-  background-color: #eceff1;
+  background-color: #d6d6d6;
   overflow: hidden;
 }
 
@@ -211,7 +292,7 @@ input.send-message-input {
   flex-grow: 1;
   height: 40px;
   border-radius: 9px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid #8a8a8a;
   padding-left: 10px;
   box-sizing: border-box;
   background-color: #eceff1;
@@ -219,11 +300,11 @@ input.send-message-input {
 }
 input.send-message-input::-moz-placeholder {
   font-style: italic;
-  color: #b4b4b4;
+  color: #8a8a8a;
 }
 input.send-message-input::placeholder {
   font-style: italic;
-  color: #b4b4b4;
+  color: #8a8a8a;
 }
 
 .send-message-button {
@@ -265,4 +346,25 @@ input.send-message-input::placeholder {
 .recent-conversation-item:hover .delete-button {
   opacity: 1;
   background-color: #42555f;
+}
+
+.chat-header {
+  position: absolute;
+  top: 0;
+  left: 24.3rem;
+  width: 100%;
+  height: 2rem;
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+.chat-header .chat-info {
+  display: flex;
+  align-items: center;
+}
+.chat-header .chat-info .chat-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000;
+  margin-right: 2rem;
 }/*# sourceMappingURL=App.css.map */

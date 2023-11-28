@@ -1,0 +1,22 @@
+.chat-header {
+  position: absolute;
+  top: 0;
+  left: 24.3rem;
+  width: 100%;
+  height: 2rem;
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+
+  .chat-info {
+    display: flex;
+    align-items: center;
+
+    .chat-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #000;
+      margin-right: 2rem;
+    }
+  }
+}

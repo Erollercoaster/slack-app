@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/API";
 import Select from "react-select";
 
-const ChatList = ({ onUserSelect }) => {
+const ChatList = ({ onUserSelect, isMulti = false }) => {
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(isMulti ? [] : null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,13 +19,10 @@ const ChatList = ({ onUserSelect }) => {
         });
 
         setUsers(
-          response.data.data.map((user) => {
-            const emailName = user.email.split("@")[0];
-            return {
-              value: user.id,
-              label: `${emailName} (${user.email})`,
-            };
-          })
+          response.data.data.map((user) => ({
+            value: user.id,
+            label: `${user.email.split("@")[0]} (${user.email})`,
+          }))
         );
         setIsLoading(false);
       } catch (err) {
@@ -37,12 +34,22 @@ const ChatList = ({ onUserSelect }) => {
     fetchUsers();
   }, []);
 
-  const handleChange = (selectedOption) => {
-    console.log("Selected user:", selectedOption);
-    setSelectedUser(selectedOption);
-    if (onUserSelect && selectedOption) {
-      const email = selectedOption.label.split(" (")[1].slice(0, -1);
-      onUserSelect(selectedOption.value, email);
+  const handleChange = (selectedOptions) => {
+    setSelectedUser(selectedOptions);
+
+    if (isMulti) {
+      const userIds = selectedOptions.map((option) => option.value);
+      onUserSelect(userIds);
+    } else {
+      if (selectedOptions) {
+        const userId = selectedOptions.value;
+        const userEmail = selectedOptions.label
+          .split(" ")[1]
+          .replace(/[()]/g, "");
+        onUserSelect(userId, userEmail);
+      } else {
+        onUserSelect(null, null);
+      }
     }
   };
 
@@ -59,6 +66,7 @@ const ChatList = ({ onUserSelect }) => {
         placeholder="Search by email..."
         isClearable
         isSearchable
+        isMulti={isMulti}
       />
     </div>
   );

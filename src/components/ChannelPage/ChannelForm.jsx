@@ -3,6 +3,7 @@ import axiosInstance from "../../utils/API";
 import { Send } from "lucide-react";
 
 const ChannelForm = ({ onAddMessage, channelId }) => {
+  console.log("ChannelForm received channelId:", channelId);
   const [message, setMessage] = useState({
     body: "",
   });
@@ -18,8 +19,8 @@ const ChannelForm = ({ onAddMessage, channelId }) => {
       const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
 
       const requestBody = {
-        receiver_id: channelId, // Channel ID
-        receiver_class: "Channel", // Set to "Channel" for channel messages
+        receiver_id: channelId,
+        receiver_class: "Channel",
         body: message.body,
       };
 

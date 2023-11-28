@@ -3,10 +3,12 @@ import ChannelForm from "./ChannelForm";
 import ChatList from "../DirectMessages/ChatList";
 import SideBar from "../Navigation/SideBar";
 import axiosInstance from "../../utils/API";
+import ChatHeader from "../Navigation/ChatHeader";
 
 const ChannelPage = () => {
   const [messages, setMessages] = useState({});
   const [selectedChannelId, setSelectedChannelId] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     if (selectedChannelId) {
@@ -24,14 +26,20 @@ const ChannelPage = () => {
       const storedHeaders = localStorage.getItem("authHeaders");
       const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
 
-      const response = await axiosInstance.get(
-        `/messages?receiver_id=${channelId}&receiver_class=Channel`,
-        { headers: authHeaders }
-      );
+      const url = `/messages?receiver_id=${channelId}&receiver_class=Channel`;
+      const response = await axiosInstance.get(url, { headers: authHeaders });
+
+      // Access the messages array correctly
+      const fetchedMessages = response.data.data || [];
+
+      if (fetchedMessages.length === 0) {
+      } else {
+        console.log("Fetched messages:", fetchedMessages);
+      }
 
       setMessages((prevMessages) => ({
         ...prevMessages,
-        [channelId]: response.data.messages || [],
+        [channelId]: fetchedMessages,
       }));
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -39,38 +47,62 @@ const ChannelPage = () => {
   };
 
   const addMessage = (channelId, newMessage) => {
-    setMessages((prevMessages) => ({
-      ...prevMessages,
-      [channelId]: [...(prevMessages[channelId] || []), newMessage],
-    }));
+    setMessages((prevMessages) => {
+      const updatedMessages = prevMessages[channelId]
+        ? [...prevMessages[channelId]]
+        : [];
+      updatedMessages.push({
+        ...newMessage,
+        sender: { email: newMessage.senderEmail },
+        created_at: new Date().toISOString(),
+      });
+      return {
+        ...prevMessages,
+        [channelId]: updatedMessages,
+      };
+    });
   };
 
   const renderMessagesForChannel = (channelId) => {
     return messages[channelId]?.map((msg, index) => (
-      <div key={index}>
-        <div>From: {msg.sender?.email}</div>
+      <div className="messagebox" key={index}>
+        <div>{msg.sender?.email}</div>
         <div>At: {new Date(msg.created_at).toLocaleString()}</div>
         <div>{msg.body}</div>
       </div>
     ));
   };
 
-  const handleChannelSelection = (channelId) => {
-    setSelectedChannelId(channelId);
-    fetchMessagesForChannel(channelId);
-  };
+  const handleChannelSelection = (selectedOptions) => {
+    console.log("Selected Options:", selectedOptions);
 
+    if (typeof selectedOptions === "number") {
+      setSelectedChannelId(selectedOptions);
+      fetchMessagesForChannel(selectedOptions);
+    } else if (Array.isArray(selectedOptions)) {
+    } else {
+      const channelId = selectedOptions?.value;
+      console.log("Selected Channel ID:", channelId);
+      setSelectedChannelId(channelId);
+      if (channelId) {
+        fetchMessagesForChannel(channelId);
+      }
+    }
+  };
   return (
     <div className="channel-wrapper">
       <div className="chatlist-wrapper">
         <h1>Channels</h1>
-        <ChatList onChannelSelect={handleChannelSelection} />
+        <ChatList onChannelSelect={handleChannelSelection} isMulti={true} />
       </div>
       <div className="sidebar-wrapper">
         <SideBar
           onChannelSelect={handleChannelSelection}
           selectedChannelId={selectedChannelId}
         />
+      </div>
+      <div className="chatheader-wrapper">
+        <ChatHeader chatName="Chat Name" />
       </div>
       <div className="message-wrapper">
         <h2>Channel Messages</h2>

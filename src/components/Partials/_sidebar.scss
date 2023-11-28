@@ -8,24 +8,112 @@
   padding: 0.63rem;
 }
 
+// Common styles for buttons and channel items
+.common-glow-effect {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  color: white;
+  background-color: #37474f;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #0cce6b;
+    transition: 0.5s;
+    transform: scale(0.9);
+    z-index: -1;
+  }
+
+  &:hover::before {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #0cce6b;
+  }
+
+  &:hover {
+    color: #0cce6b;
+    box-shadow: 0 0 5px #0cce6b;
+    text-shadow: 0 0 5px #0cce6b;
+  }
+}
+
+.channel-item {
+  @extend .common-glow-effect;
+  margin-bottom: 5px; // Only for channel-item
+  cursor: pointer;
+}
+
+.channel-item.selected {
+  color: #0cce6b;
+  box-shadow: 0 0 5px #0cce6b;
+  text-shadow: 0 0 5px #0cce6b;
+}
+
+.logout-button,
+button.create-channel-button {
+  position: absolute;
+  bottom: 3.5rem; // Adjust as needed
+  cursor: pointer;
+  font-size: 0.75rem; // Adjust as needed
+}
+
+button.create-channel-button {
+  bottom: 7.5rem; // Adjust as needed
+  font-size: 0.8rem; // Adjust as needed
+}
+
 .logout-button {
   color: white;
-  background-color: #263238;
+  background-color: #37474f;
   border: none;
   position: absolute;
   bottom: 3.5rem;
   margin-right: 0.7rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
+  font-size: 0.75rem;
+  @extend .common-glow-effect;
 }
 
-.logout-button:hover {
+button.create-channel-button {
+  position: absolute;
+  bottom: 7.5rem;
+  margin-right: -1rem;
+  color: white;
   background-color: #37474f;
+  border: none;
+  position: absolute;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  @extend .common-glow-effect;
 }
 
-.logout-button:active {
-  background-color: #1b2327;
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.context-menu-item {
+  padding: 5px;
+  text-align: center;
+  width: 100%;
 }

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const ChannelCreationForm = ({ onSubmit, selectedUserIds }) => {
+const ChannelCreationForm = ({ onSubmit }) => {
   const [channelName, setChannelName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) {
-      onSubmit(channelName, selectedUserIds);
+      onSubmit(channelName);
     }
   };
 

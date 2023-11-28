@@ -13,9 +13,10 @@ body {
   align-items: center;
   height: 90vh;
   font-family: "Montserrat", sans-serif;
-  background-color: #eceff1;
+  background-color: #d6d6d6;
   overflow: hidden;
 }
 
 @import "components/Partials/registerform";
 @import "components/Partials/dmpage";
+@import "components/Partials/chatheader";

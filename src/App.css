@@ -139,7 +139,7 @@ table {
   padding: 0.63rem;
 }
 
-.common-glow-effect, button.create-channel-button, .logout-button, .channel-item {
+.common-glow-effect, .home-button, button.create-channel-button, .logout-button, .channel-item {
   position: relative;
   width: 55px;
   height: 55px;
@@ -153,7 +153,7 @@ table {
   font-weight: bold;
   font-size: 1.2rem;
 }
-.common-glow-effect::before, button.create-channel-button::before, .logout-button::before, .channel-item::before {
+.common-glow-effect::before, .home-button::before, button.create-channel-button::before, .logout-button::before, .channel-item::before {
   content: "";
   position: absolute;
   top: 0;
@@ -166,11 +166,11 @@ table {
   transform: scale(0.9);
   z-index: -1;
 }
-.common-glow-effect:hover::before, button.create-channel-button:hover::before, .logout-button:hover::before, .channel-item:hover::before {
+.common-glow-effect:hover::before, .home-button:hover::before, button.create-channel-button:hover::before, .logout-button:hover::before, .channel-item:hover::before {
   transform: scale(1.1);
   box-shadow: 0 0 15px #0cce6b;
 }
-.common-glow-effect:hover, button.create-channel-button:hover, .logout-button:hover, .channel-item:hover {
+.common-glow-effect:hover, .home-button:hover, button.create-channel-button:hover, .logout-button:hover, .channel-item:hover {
   color: #0cce6b;
   box-shadow: 0 0 5px #0cce6b;
   text-shadow: 0 0 5px #0cce6b;
@@ -201,7 +201,7 @@ button.create-channel-button {
 }
 
 .logout-button {
-  color: white;
+  color: #0cce6b;
   background-color: #37474f;
   border: none;
   position: absolute;
@@ -219,7 +219,7 @@ button.create-channel-button {
   position: absolute;
   bottom: 7.5rem;
   margin-right: -1rem;
-  color: white;
+  color: #0cce6b;
   background-color: #37474f;
   border: none;
   position: absolute;
@@ -242,6 +242,23 @@ button.create-channel-button {
   width: 100%;
 }
 
+.home-button {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  color: #0cce6b;
+  background-color: #37474f;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
 .chatlist-wrapper {
   background-color: #37474f;
   height: 100%;
@@ -250,9 +267,15 @@ button.create-channel-button {
   left: 3.7rem;
   top: 0;
   padding-left: 2.5rem;
-  padding-top: 2.5rem;
+  padding-top: 1.2rem;
   padding-right: 2.5rem;
   color: white;
+}
+.chatlist-wrapper h1 {
+  text-align: left;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
 * {
@@ -356,15 +379,56 @@ input.send-message-input::placeholder {
   height: 2rem;
   padding: 10px;
   background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #8a8a8a;
 }
 .chat-header .chat-info {
   display: flex;
   align-items: center;
 }
+.chat-header .chat-info .chat-icon {
+  color: white;
+  background-color: #37474f;
+  border: none;
+  transition: background-color 0.3s ease;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
 .chat-header .chat-info .chat-name {
   font-size: 1.2em;
   font-weight: bold;
   color: #000;
-  margin-right: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.add-members-button {
+  position: absolute;
+  top: 13px;
+  right: 25px;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.chat-icon {
+  color: white;
+  background-color: #37474f;
+  border: none;
+  transition: background-color 0.3s ease;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }/*# sourceMappingURL=App.css.map */

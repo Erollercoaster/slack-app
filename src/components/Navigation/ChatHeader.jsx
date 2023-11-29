@@ -1,13 +1,19 @@
 import React from "react";
 
-const ChatHeader = ({ chatName }) => {
+const ChatHeader = ({ chatName, icon, members }) => {
   return (
     <header className="chat-header">
       <div className="chat-info">
+        <div className="chat-icon">{icon}</div>
         <div className="chat-name">{chatName}</div>
-        <div className="chat-icons">{/* Icons can be added here */}</div>
+        <div className="channel-members">
+          {members.map((member) =>
+            member.email ? (
+              <span key={member.id}>{member.email.split("@")[0]}, </span>
+            ) : null
+          )}
+        </div>
       </div>
-      {/* Additional elements like search or settings can go here */}
     </header>
   );
 };

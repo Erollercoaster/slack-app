@@ -8,7 +8,8 @@ import ChatHeader from "../Navigation/ChatHeader";
 const ChannelPage = () => {
   const [messages, setMessages] = useState({});
   const [selectedChannelId, setSelectedChannelId] = useState(null);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [chatName, setChatName] = useState("Chats");
+  const [chatIcon, setChatIcon] = useState(null);
 
   useEffect(() => {
     if (selectedChannelId) {
@@ -34,7 +35,6 @@ const ChannelPage = () => {
 
       if (fetchedMessages.length === 0) {
       } else {
-        console.log("Fetched messages:", fetchedMessages);
       }
 
       setMessages((prevMessages) => ({
@@ -73,22 +73,55 @@ const ChannelPage = () => {
     ));
   };
 
-  const handleChannelSelection = (selectedOptions) => {
-    console.log("Selected Options:", selectedOptions);
+  const handleChannelSelection = async (selectedOptions) => {
+    console.log("Handling channel selection:", selectedOptions);
 
     if (typeof selectedOptions === "number") {
       setSelectedChannelId(selectedOptions);
       fetchMessagesForChannel(selectedOptions);
-    } else if (Array.isArray(selectedOptions)) {
-    } else {
-      const channelId = selectedOptions?.value;
-      console.log("Selected Channel ID:", channelId);
-      setSelectedChannelId(channelId);
-      if (channelId) {
-        fetchMessagesForChannel(channelId);
+
+      const channelDetails = await fetchChannelDetails(selectedOptions);
+      console.log("Fetched channel details:", channelDetails);
+
+      if (channelDetails && channelDetails.name) {
+        setChatName(channelDetails.name);
+        setChatIcon(
+          <div className="chat-icon">
+            {channelDetails.name.charAt(0).toUpperCase()}
+          </div>
+        );
+      } else {
+        console.log("Channel details missing or name not found");
+        setChatName("Unknown");
+        setChatIcon(null);
       }
+    } else if (Array.isArray(selectedOptions)) {
+      // Handle array case
+    } else {
+      // Handle other cases
+    }
+
+    // Add logic for user selection here
+  };
+
+  const fetchChannelDetails = async (channelId) => {
+    console.log("Fetching channel details for ID:", channelId);
+    try {
+      const storedHeaders = localStorage.getItem("authHeaders");
+      const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
+
+      const response = await axiosInstance.get(`/channels/${channelId}`, {
+        headers: authHeaders,
+      });
+
+      console.log("API response for channel details:", response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching channel details:", error);
+      return null; // or handle the error as per your application's needs
     }
   };
+
   return (
     <div className="channel-wrapper">
       <div className="chatlist-wrapper">
@@ -102,7 +135,7 @@ const ChannelPage = () => {
         />
       </div>
       <div className="chatheader-wrapper">
-        <ChatHeader chatName="Chat Name" />
+        <ChatHeader chatName={chatName} icon={chatIcon} />
       </div>
       <div className="message-wrapper">
         <h2>Channel Messages</h2>

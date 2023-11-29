@@ -58,7 +58,6 @@ const ChatList = ({ onUserSelect, isMulti = false }) => {
 
   return (
     <div>
-      <h2>Available Users</h2>
       <Select
         value={selectedUser}
         onChange={handleChange}

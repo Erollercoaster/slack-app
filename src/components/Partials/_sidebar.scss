@@ -8,7 +8,6 @@
   padding: 0.63rem;
 }
 
-// Common styles for buttons and channel items
 .common-glow-effect {
   position: relative;
   width: 55px;
@@ -51,7 +50,7 @@
 
 .channel-item {
   @extend .common-glow-effect;
-  margin-bottom: 5px; // Only for channel-item
+  margin-bottom: 5px;
   cursor: pointer;
 }
 
@@ -64,18 +63,18 @@
 .logout-button,
 button.create-channel-button {
   position: absolute;
-  bottom: 3.5rem; // Adjust as needed
+  bottom: 3.5rem;
   cursor: pointer;
-  font-size: 0.75rem; // Adjust as needed
+  font-size: 0.75rem;
 }
 
 button.create-channel-button {
-  bottom: 7.5rem; // Adjust as needed
-  font-size: 0.8rem; // Adjust as needed
+  bottom: 7.5rem;
+  font-size: 0.8rem;
 }
 
 .logout-button {
-  color: white;
+  color: #0cce6b;
   background-color: #37474f;
   border: none;
   position: absolute;
@@ -94,7 +93,7 @@ button.create-channel-button {
   position: absolute;
   bottom: 7.5rem;
   margin-right: -1rem;
-  color: white;
+  color: #0cce6b;
   background-color: #37474f;
   border: none;
   position: absolute;
@@ -116,4 +115,22 @@ button.create-channel-button {
   padding: 5px;
   text-align: center;
   width: 100%;
+}
+
+.home-button {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  color: #0cce6b;
+  background-color: #37474f;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  @extend .common-glow-effect;
+  margin-bottom: 5px;
 }

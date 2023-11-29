@@ -6,17 +6,59 @@
   height: 2rem;
   padding: 10px;
   background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #8a8a8a;
 
   .chat-info {
     display: flex;
     align-items: center;
 
+    .chat-icon {
+      color: white;
+      background-color: #37474f;
+      border: none;
+      transition: background-color 0.3s ease;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
     .chat-name {
       font-size: 1.2em;
       font-weight: bold;
       color: #000;
-      margin-right: 2rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
   }
+}
+
+.add-members-button {
+  position: absolute;
+  top: 13px;
+  right: 25px;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.chat-icon {
+  color: white;
+  background-color: #37474f;
+  border: none;
+  transition: background-color 0.3s ease;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }

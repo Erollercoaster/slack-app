@@ -3,7 +3,7 @@ import { LogOut } from "lucide-react";
 import ChannelCreationModal from "../ChannelPage/ChannelCreationModal";
 import axiosInstance from "../../utils/API";
 import { ContextMenu } from "../ChannelPage/ContextMenu";
-import { Plus, Home } from "lucide-react";
+import { Plus, MessagesSquare } from "lucide-react";
 
 const SideBar = ({ onChannelSelect, selectedChannelId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,10 +84,10 @@ const SideBar = ({ onChannelSelect, selectedChannelId }) => {
           <LogOut />
         </button>
         <div
-          className="channel-item"
+          className="home-button"
           // onClick={handleHomeClick}
         >
-          <Home />
+          <MessagesSquare />
         </div>
         {channels.map((channel) => (
           <div

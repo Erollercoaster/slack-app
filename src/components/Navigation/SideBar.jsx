@@ -3,7 +3,7 @@ import { LogOut } from "lucide-react";
 import ChannelCreationModal from "../ChannelPage/ChannelCreationModal";
 import axiosInstance from "../../utils/API";
 import { ContextMenu } from "../ChannelPage/ContextMenu";
-import { Plus, MessagesSquare } from "lucide-react";
+import { Plus, Home } from "lucide-react";
 
 const SideBar = ({ onChannelSelect, selectedChannelId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,16 +14,18 @@ const SideBar = ({ onChannelSelect, selectedChannelId }) => {
     const fetchChannels = async () => {
       try {
         const response = await axiosInstance.get("/channels");
-        let apiChannels = response.data.data;
+        let apiChannels = response.data.data || [];
 
         // Retrieve left channels from local storage
         const leftChannelIds =
           JSON.parse(localStorage.getItem("leftChannels")) || [];
 
         // Filter out channels that the user has left
-        apiChannels = apiChannels.filter(
-          (channel) => !leftChannelIds.includes(channel.id)
-        );
+        if (Array.isArray(apiChannels)) {
+          apiChannels = apiChannels.filter(
+            (channel) => !leftChannelIds.includes(channel.id)
+          );
+        }
 
         setChannels(apiChannels);
       } catch (error) {
@@ -87,7 +89,7 @@ const SideBar = ({ onChannelSelect, selectedChannelId }) => {
           className="home-button"
           // onClick={handleHomeClick}
         >
-          <MessagesSquare />
+          <Home />
         </div>
         {channels.map((channel) => (
           <div

@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import backgroundImage from "../../assets/bg.jpg";
+import { toast } from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -84,12 +85,13 @@ export default function SignIn() {
       localStorage.setItem("userDetails", JSON.stringify(response.data));
 
       navigate("/home");
+      toast.success("Login Successful!");
     } catch (error) {
       console.error(
         "Login failed:",
         error.response ? error.response.data : error
       );
-      // handle login errors
+      toast.error("Login failed: Incorrect credentials");
     }
   };
 

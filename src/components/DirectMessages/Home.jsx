@@ -9,6 +9,7 @@ import RecentConversations from "./RecentConversations";
 import Modal from "react-modal";
 import Select from "react-select";
 import { UserPlus, MousePointerSquare } from "lucide-react";
+import { toast } from "react-toastify";
 
 const HomePage = () => {
   const [messages, setMessages] = useState({});
@@ -139,6 +140,7 @@ const HomePage = () => {
       return null;
     }
   };
+
   const handleSelection = async (
     selectedOption,
     isChannel = false,
@@ -238,38 +240,37 @@ const HomePage = () => {
       );
 
       console.log("Member added to channel:", response.data);
+
+      toast.success("Member added to channel successfully!");
     } catch (error) {
       console.error("Error adding member to channel:", error);
+      toast.error("Failed to add member to channel. Please try again.");
     }
   };
 
   const renderMessages = () => {
-    // Retrieve the authHeaders from localStorage and parse it
     const storedHeaders = localStorage.getItem("authHeaders");
     const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
-    const currentUserEmail = authHeaders.uid; // Extract the email from the parsed authHeaders
+    const currentUserEmail = authHeaders.uid;
 
-    // Determine which messages to render based on what is selected
     const currentMessages = selectedChannelId
       ? messages[selectedChannelId]
       : messages[selectedUserId];
 
-    // If there are no messages, return an empty array
     if (!currentMessages || currentMessages.length === 0) {
       return [];
     }
 
-    // Map over the current messages to generate the message components
+    // map over the current messages to generate the message components
     return currentMessages.map((msg, index) => {
-      // Check if the current user is the sender of the message
+      // check if the current user is the sender of the message
       const isCurrentUserSender = msg.sender?.email === currentUserEmail;
-      // Apply 'sender' class if current user sent the message, otherwise 'receiver'
+      // apply 'sender' class if current user sent the message, if not 'receiver'
       const messageClass = isCurrentUserSender ? "sender" : "receiver";
 
-      // Ensure you have a valid character to display as the sender initial
       const senderInitial = msg.sender?.email
         ? msg.sender.email.charAt(0).toUpperCase()
-        : "?"; // Fallback character if email is not available
+        : "?"; // fallback character if email is not available
 
       return (
         <div className="messagebox" key={index}>
@@ -352,16 +353,25 @@ const HomePage = () => {
             ariaHideApp={false}
             className="add-members"
           >
-            <h2>Add Members to Channel</h2>
-            <Select
-              value={selectedMembers}
-              onChange={handleMemberChange}
-              options={users}
-              placeholder="Select members..."
-              isMulti
-            />
-            <button onClick={handleAddMembers}>Confirm</button>
-            <button onClick={closeModal}>Cancel</button>
+            <div className="add-member-wrapper">
+              <h2>Add Members to Channel</h2>
+              <Select
+                value={selectedMembers}
+                onChange={handleMemberChange}
+                options={users}
+                placeholder="Select members..."
+                isMulti
+                className="add-member-select"
+              />
+              <div className="add-members-buttons-modal">
+                <div className="modal-submit-button">
+                  <button onClick={handleAddMembers}>Confirm</button>
+                </div>
+                <div className="modal-close-button">
+                  <button onClick={closeModal}>Cancel</button>
+                </div>
+              </div>
+            </div>
           </Modal>
         </div>
         <div className="message-wrapper">

@@ -610,5 +610,34 @@ svg.lucide.lucide-mouse-pointer-square {
 }
 
 .modal-submit-button button:hover {
-  background-color: #d32f2f; /* Darker shade on hover */
+  background-color: rgb(21, 155, 99); /* Darker shade on hover */
+}
+
+.add-member-wrapper {
+  margin-top: 7rem;
+}
+
+.add-members {
+  width: 50%;
+  height: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  background-color: #37474f;
+  color: white;
+  border-radius: 15px;
+}
+.add-members h2 {
+  margin-bottom: 20px;
+}
+
+.add-members-buttons-modal {
+  display: flex;
+  justify-content: space-around;
+  align-items: space-around;
+  margin-top: 20px;
+}
+
+.add-member-select {
+  color: black;
 }/*# sourceMappingURL=App.css.map */

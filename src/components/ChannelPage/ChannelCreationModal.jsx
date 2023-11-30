@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import ChannelCreationForm from "./ChannelCreationForm";
 import ChatList from "../DirectMessages/ChatList.jsx";
 import { createChannel } from "../../utils/API.jsx";
+import { toast } from "react-toastify";
 
 const ChannelCreationModal = ({ isOpen, onRequestClose }) => {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
@@ -21,9 +22,11 @@ const ChannelCreationModal = ({ isOpen, onRequestClose }) => {
       console.log(channelData);
       const response = await createChannel(channelData);
       console.log("Channel created:", response.data);
+      toast.success("Channel created successfully!");
       onRequestClose();
     } catch (error) {
       console.error("Error creating channel:", error);
+      toast.error("Failed to create channel. Please try again.");
     }
   };
 

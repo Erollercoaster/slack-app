@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import backgroundImage from "../../assets/bg.jpg";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@mui/material/Link";
+import { toast } from "react-toastify";
 
 const defaultTheme = createTheme();
 
@@ -57,16 +58,27 @@ function RegistrationForm() {
       });
 
       navigate("/");
+      toast.success("Registered Successfully!");
     } catch (error) {
       if (error.response && error.response.status === 422) {
         const validationErrors = error.response.data.errors;
         console.error("Validation errors:", validationErrors);
 
-        alert(
-          `Validation errors:\n${validationErrors.full_messages.join("\n")}`
-        );
+        // Use toast to display validation errors
+        const validationErrorMessage = `Validation errors:\n${validationErrors.full_messages.join(
+          "\n"
+        )}`;
+        toast.error(validationErrorMessage);
       } else {
-        console.error("Registration failed:", error.response.data);
+        console.error(
+          "Registration failed:",
+          error.response ? error.response.data : error
+        );
+        const errorMessage =
+          error.response && error.response.data && error.response.data.error
+            ? error.response.data.error
+            : "Registration Failed";
+        toast.error(errorMessage);
       }
     }
   };

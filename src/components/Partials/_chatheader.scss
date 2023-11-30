@@ -1,8 +1,8 @@
 .chat-header {
-  position: absolute;
+  position: sticky;
   top: 0;
-  left: 24.3rem;
-  width: 100%;
+  left: 30rem;
+  width: 78.66%;
   height: 2rem;
   padding: 10px;
   background-color: #fff;
@@ -11,6 +11,7 @@
   .chat-info {
     display: flex;
     align-items: center;
+    margin-left: 6px;
 
     .chat-icon {
       color: white;
@@ -26,6 +27,7 @@
       justify-content: center;
       align-items: center;
       font-weight: bold;
+      margin-left: 10px;
     }
 
     .chat-name {
@@ -40,7 +42,7 @@
 
 .add-members-button {
   position: absolute;
-  top: 13px;
+  top: 8px;
   right: 25px;
   border: none;
   background: white;

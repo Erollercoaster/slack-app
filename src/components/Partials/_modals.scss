@@ -1,0 +1,77 @@
+.ReactModal__Content.ReactModal__Content--after-open {
+  width: 35%;
+  height: 35%;
+  margin-left: 35%;
+  margin-top: 10%;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.modal-react-wrapper {
+  background-color: #37474f;
+  color: white;
+  border-radius: 15px;
+}
+
+.modal-react-select {
+  color: black;
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 12.5%;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: white;
+}
+
+.modal-react-select {
+  width: 500px;
+}
+
+.modal-submit-button,
+.modal-react-select,
+.modal-close-button {
+  margin-bottom: 20px;
+}
+
+.modal-close-button button {
+  background-color: #f44336; /* Red color for close button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 7rem;
+}
+
+.modal-close-button button:hover {
+  background-color: #d32f2f; /* Darker shade on hover */
+}
+
+.modal-submit-button button {
+  background-color: rgb(31, 228, 146); /* Red color for close button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: absolute;
+  bottom: 32.8rem;
+}
+
+.modal-submit-button button:hover {
+  background-color: #d32f2f; /* Darker shade on hover */
+}

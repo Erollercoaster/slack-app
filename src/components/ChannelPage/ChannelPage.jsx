@@ -138,7 +138,6 @@ const ChannelPage = () => {
         <ChatHeader chatName={chatName} icon={chatIcon} />
       </div>
       <div className="message-wrapper">
-        <h2>Channel Messages</h2>
         {selectedChannelId && renderMessagesForChannel(selectedChannelId)}
       </div>
       <ChannelForm onAddMessage={addMessage} channelId={selectedChannelId} />

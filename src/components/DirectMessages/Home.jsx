@@ -8,7 +8,7 @@ import ChatHeader from "../Navigation/ChatHeader";
 import RecentConversations from "./RecentConversations";
 import Modal from "react-modal";
 import Select from "react-select";
-import { UserPlus } from "lucide-react";
+import { UserPlus, MousePointerSquare } from "lucide-react";
 
 const HomePage = () => {
   const [messages, setMessages] = useState({});
@@ -244,26 +244,46 @@ const HomePage = () => {
   };
 
   const renderMessages = () => {
+    // Retrieve the authHeaders from localStorage and parse it
+    const storedHeaders = localStorage.getItem("authHeaders");
+    const authHeaders = storedHeaders ? JSON.parse(storedHeaders) : {};
+    const currentUserEmail = authHeaders.uid; // Extract the email from the parsed authHeaders
+
+    // Determine which messages to render based on what is selected
     const currentMessages = selectedChannelId
       ? messages[selectedChannelId]
       : messages[selectedUserId];
-    return currentMessages?.map((msg, index) => {
-      const senderInitial = msg.sender?.email.charAt(0).toUpperCase();
-      const senderIcon = <div className="chat-icon">{senderInitial}</div>;
+
+    // If there are no messages, return an empty array
+    if (!currentMessages || currentMessages.length === 0) {
+      return [];
+    }
+
+    // Map over the current messages to generate the message components
+    return currentMessages.map((msg, index) => {
+      // Check if the current user is the sender of the message
+      const isCurrentUserSender = msg.sender?.email === currentUserEmail;
+      // Apply 'sender' class if current user sent the message, otherwise 'receiver'
+      const messageClass = isCurrentUserSender ? "sender" : "receiver";
+
+      // Ensure you have a valid character to display as the sender initial
+      const senderInitial = msg.sender?.email
+        ? msg.sender.email.charAt(0).toUpperCase()
+        : "?"; // Fallback character if email is not available
 
       return (
         <div className="messagebox" key={index}>
-          <div className="sender">
-            {senderIcon}
-            {msg.sender?.email.split("@")[0]} At:{" "}
+          <div className={`${messageClass}`}>
+            <div className="chat-icon">{senderInitial}</div>
+            <div className="message-body">{msg.body}</div>
+          </div>
+          <div className={`timestamp-${messageClass}`}>
             {new Date(msg.created_at).toLocaleString()}
           </div>
-          <div className="message-body">{msg.body}</div>
         </div>
       );
     });
   };
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -298,73 +318,85 @@ const HomePage = () => {
   };
 
   return (
-    <div className="home-wrapper">
-      <div className="chatlist-wrapper">
-        <ChatList
-          onChannelSelect={(option) => handleSelection(option, true)}
-          onUserSelect={(userId, userEmail) =>
-            handleSelection(userId, false, userEmail)
-          }
-        />
-        <RecentConversations
-          onSelectUser={(userId, userEmail) =>
-            handleSelection(userId, false, userEmail)
-          }
-        />
-      </div>
-      <div className="sidebar-wrapper">
-        <SideBar
-          onChannelSelect={(option) => handleSelection(option, true)}
-          selectedChannelId={selectedChannelId}
-        />
-      </div>
-      <div className="chatheader-wrapper">
-        <ChatHeader
-          chatName={chatName}
-          icon={chatIcon}
-          members={channelMembers}
-        />
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          ariaHideApp={false}
-          className="add-members"
-        >
-          <h2>Add Members to Channel</h2>
-          <Select
-            value={selectedMembers}
-            onChange={handleMemberChange}
-            options={users}
-            placeholder="Select members..."
-            isMulti
+    <div className="wrapper">
+      <div className="home-wrapper">
+        <div className="chatlist-wrapper">
+          <h1>Direct Messages</h1>
+          <ChatList
+            onChannelSelect={(option) => handleSelection(option, true)}
+            onUserSelect={(userId, userEmail) =>
+              handleSelection(userId, false, userEmail)
+            }
           />
-          <button onClick={handleAddMembers}>Confirm</button>
-          <button onClick={closeModal}>Cancel</button>
-        </Modal>
-      </div>
-      <div className="message-wrapper">
-        <h2>{selectedChannelId ? "Channel Messages" : "Messages"}</h2>
-        {renderMessages()}
-        {selectedChannelId && (
-          <button className="add-members-button" onClick={openModal}>
-            <UserPlus />
-          </button>
+          <RecentConversations
+            onSelectUser={(userId, userEmail) =>
+              handleSelection(userId, false, userEmail)
+            }
+          />
+        </div>
+        <div className="sidebar-wrapper">
+          <SideBar
+            onChannelSelect={(option) => handleSelection(option, true)}
+            selectedChannelId={selectedChannelId}
+          />
+        </div>
+        <div className="chatheader-wrapper">
+          <ChatHeader
+            chatName={chatName}
+            icon={chatIcon}
+            members={channelMembers}
+          />
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            ariaHideApp={false}
+            className="add-members"
+          >
+            <h2>Add Members to Channel</h2>
+            <Select
+              value={selectedMembers}
+              onChange={handleMemberChange}
+              options={users}
+              placeholder="Select members..."
+              isMulti
+            />
+            <button onClick={handleAddMembers}>Confirm</button>
+            <button onClick={closeModal}>Cancel</button>
+          </Modal>
+        </div>
+        <div className="message-wrapper">
+          {(selectedChannelId || selectedUserId) &&
+          renderMessages().length > 0 ? (
+            renderMessages()
+          ) : (
+            <div className="starter-prompt">
+              <MousePointerSquare size={150} strokeWidth={0.5} />
+              Start a conversation or select a chat to display messages.
+            </div>
+          )}
+          {selectedChannelId && (
+            <button className="add-members-button" onClick={openModal}>
+              <UserPlus />
+            </button>
+          )}
+        </div>
+        {selectedChannelId ? (
+          <ChannelForm
+            onAddMessage={(newMessage) =>
+              addMessage(selectedChannelId, newMessage, true)
+            }
+            channelId={selectedChannelId}
+          />
+        ) : (
+          <DMForm
+            onAddMessage={(newMessage) =>
+              addMessage(selectedUserId, newMessage)
+            }
+            receiverId={selectedUserId}
+            receiverEmail={selectedUserEmail}
+          />
         )}
       </div>
-      {selectedChannelId ? (
-        <ChannelForm
-          onAddMessage={(newMessage) =>
-            addMessage(selectedChannelId, newMessage, true)
-          }
-          channelId={selectedChannelId}
-        />
-      ) : (
-        <DMForm
-          onAddMessage={(newMessage) => addMessage(selectedUserId, newMessage)}
-          receiverId={selectedUserId}
-          receiverEmail={selectedUserEmail}
-        />
-      )}
     </div>
   );
 };

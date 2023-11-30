@@ -28,11 +28,27 @@ const ChannelCreationModal = ({ isOpen, onRequestClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} ariaHideApp={false}>
-      <h2>Create New Channel</h2>
-      <ChannelCreationForm onSubmit={handleFormSubmit} />
-      <ChatList onUserSelect={handleUsersSelect} isMulti={true} />
-      <button onClick={onRequestClose}>Close</button>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      ariaHideApp={false}
+      className="modal-react-wrapper"
+    >
+      <div className="modal-wrapper">
+        <div className="modal-header">
+          <h2>Create New Channel</h2>
+        </div>
+        <div className="modal-react-select">
+          <ChatList onUserSelect={handleUsersSelect} isMulti={true} />
+        </div>
+
+        <div className="modal-submit-button">
+          <ChannelCreationForm onSubmit={handleFormSubmit} />
+        </div>
+        <div className="modal-close-button">
+          <button onClick={onRequestClose}>Close</button>
+        </div>
+      </div>
     </Modal>
   );
 };

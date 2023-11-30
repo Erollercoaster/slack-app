@@ -31,7 +31,7 @@ const RecentConversations = ({ onSelectUser }) => {
   };
   return (
     <div>
-      <h1>Recent Conversations</h1>
+      <h2>Recent Conversations</h2>
       {recentConversations.map((conversation, index) => (
         <div key={index} className="recent-conversation-item">
           <span

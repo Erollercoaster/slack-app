@@ -73,14 +73,6 @@ export default function SignIn() {
     try {
       const response = await axiosInstance.post("/auth/sign_in", loginData);
 
-      const authHeaders = {
-        "access-token": response.headers["access-token"],
-        client: response.headers["client"],
-        expiry: response.headers["expiry"],
-        uid: response.headers["uid"],
-      };
-      localStorage.setItem("authHeaders", JSON.stringify(authHeaders));
-
       console.log("Login successful", response.data);
       localStorage.setItem("userDetails", JSON.stringify(response.data));
 

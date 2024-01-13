@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://206.189.91.54/api/v1",
+  baseURL: "https://206.189.91.54/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
@@ -17,6 +17,25 @@ axiosInstance.interceptors.request.use(
       config.headers["uid"] = authHeaders["uid"];
     }
     return config;
+  },
+  (error) => {
+    console.error("AxiosError", error);
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    // Extract and set authentication headers in local storage from the response
+    const authHeaders = {
+      "access-token": response.headers["access-token"],
+      client: response.headers["client"],
+      expiry: response.headers["expiry"],
+      uid: response.headers["uid"],
+    };
+    localStorage.setItem("authHeaders", JSON.stringify(authHeaders));
+
+    return response;
   },
   (error) => {
     return Promise.reject(error);
